@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "carpentryadditions:block/resaw" },
+    "facing=south": { "model": "carpentryadditions:block/resaw", "y": 180 },
+    "facing=west":  { "model": "carpentryadditions:block/resaw", "y": 270 },
+    "facing=east":  { "model": "carpentryadditions:block/resaw", "y": 90 }
+  }
+}

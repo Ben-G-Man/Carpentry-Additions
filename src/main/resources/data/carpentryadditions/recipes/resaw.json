@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CD ",
+    "CI ",
+    "WWW"
+  ],
+  "key": {
+    "C": { "item": "minecraft:copper_ingot" },
+    "D": { "item": "minecraft:copper_block" },
+    "I": { "item": "minecraft:iron_nugget" },
+    "W": { "tag": "minecraft:logs" }
+  },
+  "result": {
+    "item": "carpentryadditions:resaw",
+    "count": 1
+  }
+}

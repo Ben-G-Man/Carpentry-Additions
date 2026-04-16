@@ -1,0 +1,119 @@
+# =========================
+
+# Gradle
+
+# =========================
+
+.gradle/
+build/
+out/
+
+# =========================
+
+# Forge run directories
+
+# =========================
+
+run/
+runs/
+
+# =========================
+
+# Logs
+
+# =========================
+
+logs/
+*.log
+crash-reports/
+
+# =========================
+
+# Compiled / temporary files
+
+# =========================
+
+*.class
+*.cache
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# =========================
+
+# IDE files
+
+# =========================
+
+# IntelliJ / IDEA
+
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Eclipse
+
+.project
+.classpath
+.settings/
+
+# VS Code
+
+.vscode/
+
+# NetBeans
+
+nbproject/private/
+
+# =========================
+
+# OS files
+
+# =========================
+
+.DS_Store
+Thumbs.db
+
+# =========================
+
+# Java build artifacts
+
+# =========================
+
+*.jar
+*.war
+*.ear
+
+# (Allow Gradle wrapper jar)
+
+!gradle/wrapper/gradle-wrapper.jar
+
+# =========================
+
+# Forge / MCP mapping cache
+
+# =========================
+
+mcp/
+bin/
+.cache/
+
+# =========================
+
+# Local environment configs
+
+# =========================
+
+*.env
+*.local
+
+# =========================
+
+# Generated resources
+
+# =========================
+
+generated/
