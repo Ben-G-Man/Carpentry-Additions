@@ -17,7 +17,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> RESAW = BLOCKS.register("resaw",
             () -> new ResawBlock(BlockBehaviour.Properties.of(Material.METAL).strength(1.0f).noOcclusion()));
 
-    public static final RegistryObject<Block> OAK_BATTON_BLOCK = BLOCKS.register("oak_batton_block",
+    public static final RegistryObject<Block> OAK_BATTEN_BLOCK = BLOCKS.register("oak_batten_block",
             () -> new Block(BlockBehaviour.Properties.of(Material.WOOD).strength(0.4f)));
 
 }

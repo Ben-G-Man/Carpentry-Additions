@@ -15,6 +15,9 @@ public class ModItems {
     public static final RegistryObject<Item> RESAW_ITEM = ITEMS.register("resaw",
             () -> new BlockItem(ModBlocks.RESAW.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> OAK_BATTON_BLOCK_ITEM = ITEMS.register("oak_batton_block",
-            () -> new BlockItem(ModBlocks.OAK_BATTON_BLOCK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> OAK_BATTEN_BLOCK_ITEM = ITEMS.register("oak_batten_block",
+            () -> new BlockItem(ModBlocks.OAK_BATTEN_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> OAK_BATTEN = ITEMS.register("oak_batten",
+            () -> new Item(new Item.Properties()));
 }

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "carpentryadditions:block/oak_batten_block"
+    }
+  }
+}

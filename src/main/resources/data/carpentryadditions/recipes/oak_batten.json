@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "carpentryadditions:oak_batten_block" }
+  ],
+  "result": {
+    "item": "carpentryadditions:oak_batten",
+    "count": 2
+  }
+}

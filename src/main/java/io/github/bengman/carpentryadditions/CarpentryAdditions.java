@@ -51,7 +51,7 @@ public class CarpentryAdditions {
         }
 
         if (event.getTab() == CreativeModeTabs.BUILDING_BLOCKS) {
-            event.accept(ModItems.OAK_BATTON_BLOCK_ITEM);
+            event.accept(ModItems.OAK_BATTEN_BLOCK_ITEM);
         }
     }
 }
