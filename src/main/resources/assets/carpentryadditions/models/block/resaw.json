@@ -1,6 +1,6 @@
 {
 	"format_version": "1.9.0",
-	"credit": "Made with Blockbench",
+	"credit": "Made with Blockbench (Thank you Blockbench!)",
 	"textures": {
 		"0": "carpentryadditions:block/resaw",
 		"particle": "minecraft:block/copper_block"
@@ -20,7 +20,7 @@
 			}
 		},
 		{
-			"name": "stand part a",
+			"name": "stand_a",
 			"from": [13, 2, 11],
 			"to": [16, 12, 13],
 			"rotation": {"angle": 0, "axis": "y", "origin": [14, 2, 10]},
@@ -34,7 +34,7 @@
 			}
 		},
 		{
-			"name": "stand part b",
+			"name": "stand_b",
 			"from": [7, 9, 11],
 			"to": [13, 12, 13],
 			"rotation": {"angle": 0, "axis": "y", "origin": [14, 2, 10]},
@@ -48,7 +48,7 @@
 			}
 		},
 		{
-			"name": "stand part c",
+			"name": "stand_c",
 			"from": [8, 12, 11],
 			"to": [9, 16, 12],
 			"rotation": {"angle": 0, "axis": "y", "origin": [14, 5, 10]},
@@ -62,7 +62,7 @@
 			}
 		},
 		{
-			"name": "stand part c",
+			"name": "stand_d",
 			"from": [6, 8, 8],
 			"to": [15, 17, 11],
 			"rotation": {"angle": 0, "axis": "y", "origin": [14, 5, 9]},
@@ -76,7 +76,7 @@
 			}
 		},
 		{
-			"name": "blade part a",
+			"name": "blade_a",
 			"from": [14.01, 2, 9],
 			"to": [14.03, 8, 10],
 			"rotation": {"angle": 0, "axis": "y", "origin": [14, 4, 9]},
@@ -90,7 +90,7 @@
 			}
 		},
 		{
-			"name": "blade part a",
+			"name": "blade_b",
 			"from": [7.01, 2, 9],
 			"to": [7.03, 8, 10],
 			"rotation": {"angle": 0, "axis": "y", "origin": [7, 4, 9]},

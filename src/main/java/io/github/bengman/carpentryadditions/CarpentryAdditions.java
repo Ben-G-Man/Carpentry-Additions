@@ -9,6 +9,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import io.github.bengman.carpentryadditions.datagen.ModRecipeProvider;
 import io.github.bengman.carpentryadditions.registry.ModBlockEntities;
 import io.github.bengman.carpentryadditions.registry.ModBlocks;
 import io.github.bengman.carpentryadditions.registry.ModItems;
@@ -50,8 +51,10 @@ public class CarpentryAdditions {
             event.accept(ModItems.RESAW_ITEM);
         }
 
-        if (event.getTab() == CreativeModeTabs.BUILDING_BLOCKS) {
-            event.accept(ModItems.OAK_BATTEN_BLOCK_ITEM);
-        }
+        // TODO: Add each generated item to the creative inventory tab
+
+        // if (event.getTab() == CreativeModeTabs.BUILDING_BLOCKS) {
+        // for (Block BattenBlock : )
+        // }
     }
 }

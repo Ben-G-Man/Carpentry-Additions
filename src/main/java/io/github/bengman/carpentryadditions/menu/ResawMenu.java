@@ -1,9 +1,13 @@
 package io.github.bengman.carpentryadditions.menu;
 
+import java.util.Arrays;
+
 import io.github.bengman.carpentryadditions.blockentity.ResawBlockEntity;
+import io.github.bengman.carpentryadditions.registry.BattenRegistry;
 import io.github.bengman.carpentryadditions.registry.ModBlocks;
 import io.github.bengman.carpentryadditions.registry.ModItems;
 import io.github.bengman.carpentryadditions.registry.ModMenus;
+import io.github.bengman.carpentryadditions.utils.CarpentryUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.tags.ItemTags;
@@ -13,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -74,7 +79,7 @@ public class ResawMenu extends AbstractContainerMenu {
                 Slot inputSlot = slots.get(INPUT_SLOT);
                 ItemStack input = inputSlot.getItem();
 
-                if (input.is(net.minecraft.tags.ItemTags.PLANKS)) {
+                if (input.is(ItemTags.PLANKS)) {
                     input.shrink(1);
                 }
 
@@ -137,7 +142,7 @@ public class ResawMenu extends AbstractContainerMenu {
             else if (index >= PLAYER_INV_START) {
 
                 /* Move planks into input */
-                if (stack.is(net.minecraft.tags.ItemTags.PLANKS)) {
+                if (stack.is(ItemTags.PLANKS)) {
 
                     if (!this.moveItemStackTo(stack, INPUT_SLOT, INPUT_SLOT + 1, false)) {
                         return ItemStack.EMPTY;
@@ -171,7 +176,7 @@ public class ResawMenu extends AbstractContainerMenu {
         ItemStack input = inputSlot.getItem();
 
         /* ---- Check input ---- */
-        if (!input.is(net.minecraft.tags.ItemTags.PLANKS)) {
+        if (!input.is(ItemTags.PLANKS)) {
             return;
         }
 
@@ -183,7 +188,7 @@ public class ResawMenu extends AbstractContainerMenu {
         outputSlot.set(ItemStack.EMPTY);
 
         /* ---- Create result stack ---- */
-        ItemStack battens = new ItemStack(ModItems.OAK_BATTEN.get(), totalBattens);
+        ItemStack battens = new ItemStack(getOutputItem(input), totalBattens);
 
         /* ---- Insert into player inventory ---- */
         player.getInventory().placeItemBackInInventory(battens);
@@ -196,11 +201,26 @@ public class ResawMenu extends AbstractContainerMenu {
 
         ItemStack input = inputSlot.getItem();
 
-        if (!input.is(net.minecraft.tags.ItemTags.PLANKS)) {
+        if (!input.is(ItemTags.PLANKS)) {
             outputSlot.set(ItemStack.EMPTY);
             return;
         }
 
-        outputSlot.set(new ItemStack(ModItems.OAK_BATTEN.get(), 2));
+        outputSlot.set(new ItemStack(getOutputItem(input), 2));
+    }
+
+    private Item getOutputItem(ItemStack input) {
+        if (!input.is(ItemTags.PLANKS)) {
+            return null;
+        }
+
+        String woodType = CarpentryUtils.getWoodType(input);
+
+        /* If the wood type exists in the batten registry */
+        if (Arrays.stream(BattenRegistry.BATTEN_TYPES).anyMatch(woodType::equals)) {
+            return ModItems.BATTENS.get(woodType).get();
+        } else {
+            return ModItems.getDefaultBatten().get();
+        }
     }
 }

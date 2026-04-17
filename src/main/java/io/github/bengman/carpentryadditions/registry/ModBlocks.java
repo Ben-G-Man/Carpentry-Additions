@@ -1,6 +1,10 @@
 package io.github.bengman.carpentryadditions.registry;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import io.github.bengman.carpentryadditions.CarpentryAdditions;
+import io.github.bengman.carpentryadditions.block.ChipBinBlock;
 import io.github.bengman.carpentryadditions.block.ResawBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.registries.DeferredRegister;
@@ -15,9 +19,27 @@ public class ModBlocks {
             CarpentryAdditions.MODID);
 
     public static final RegistryObject<Block> RESAW = BLOCKS.register("resaw",
-            () -> new ResawBlock(BlockBehaviour.Properties.of(Material.METAL).strength(1.0f).noOcclusion()));
+            () -> new ResawBlock(BlockBehaviour.Properties.of(Material.METAL).strength(0.9f).noOcclusion()));
 
-    public static final RegistryObject<Block> OAK_BATTEN_BLOCK = BLOCKS.register("oak_batten_block",
-            () -> new Block(BlockBehaviour.Properties.of(Material.WOOD).strength(0.4f)));
+    public static final RegistryObject<Block> CHIP_BIN = BLOCKS.register("chip_bin",
+            () -> new ChipBinBlock(BlockBehaviour.Properties.of(Material.WOOD).strength(0.9f).noOcclusion()));
 
+    /* ---- Auto-Gen Batten Blocks ---- */
+
+    public static final Map<String, RegistryObject<Block>> BATTEN_BLOCKS = new HashMap<>();
+
+    static {
+        for (String woodType : BattenRegistry.BATTEN_TYPES) {
+            BATTEN_BLOCKS.put(woodType, createBattenBlock(woodType));
+        }
+    }
+
+    private static RegistryObject<Block> createBattenBlock(String woodType) {
+        return BLOCKS.register(woodType + "_batten_block",
+                () -> new Block(BlockBehaviour.Properties.of(Material.WOOD).strength(0.8f)));
+    }
+
+    public static RegistryObject<Block> getDefaultBattenBlock() {
+        return BATTEN_BLOCKS.get(BattenRegistry.DEFAULT_BATTEN_TYPE);
+    }
 }

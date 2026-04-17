@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BLB",
+    "LCL",
+    "BLB"
+  ],
+  "key": {
+    "B": { "item": "carpentryadditions:oak_batten_block" },
+    "L": { "item": "minecraft:leather" },
+    "C": { "item": "minecraft:chest" }
+  },
+  "result": {
+    "item": "carpentryadditions:chip_bin",
+    "count": 1
+  }
+}
