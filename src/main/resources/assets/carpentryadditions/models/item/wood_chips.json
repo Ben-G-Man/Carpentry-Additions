@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "carpentryadditions:item/oak_batten"
+    "layer0": "carpentryadditions:item/wood_chips"
   }
 }

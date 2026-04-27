@@ -12,8 +12,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Consumer;
 
-import io.github.bengman.carpentryadditions.registry.BattenRegistry;
+import io.github.bengman.carpentryadditions.CarpentryAdditions;
 import io.github.bengman.carpentryadditions.registry.ModItems;
+import io.github.bengman.carpentryadditions.utils.BattenWoodTypes;
 
 public class ModRecipeProvider extends RecipeProvider {
 
@@ -24,7 +25,7 @@ public class ModRecipeProvider extends RecipeProvider {
     @Override
     protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
 
-        for (String wood : BattenRegistry.BATTEN_TYPES) {
+        for (String wood : BattenWoodTypes.BATTEN_TYPES) {
             generateStairRecipe(consumer, wood);
             generateSlabRecipe(consumer, wood);
             generateDoorRecipe(consumer, wood);
@@ -56,7 +57,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern(" B")
                 .define('B', battenItem)
                 .unlockedBy("has_batten", has(battenItem))
-                .save(consumer, new ResourceLocation("carpentryadditions",
+                .save(consumer, new ResourceLocation(CarpentryAdditions.MODID,
                         woodType + "_stairs_from_batten"));
     }
 
@@ -72,7 +73,7 @@ public class ModRecipeProvider extends RecipeProvider {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, result)
                 .requires(battenItem)
                 .unlockedBy("has_batten", has(battenItem))
-                .save(consumer, new ResourceLocation("carpentryadditions",
+                .save(consumer, new ResourceLocation(CarpentryAdditions.MODID,
                         woodType + "_slab_from_batten"));
     }
 
@@ -90,7 +91,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("BB")
                 .define('B', battenItem)
                 .unlockedBy("has_batten", has(battenItem))
-                .save(consumer, new ResourceLocation("carpentryadditions",
+                .save(consumer, new ResourceLocation(CarpentryAdditions.MODID,
                         woodType + "_door_from_batten"));
     }
 
@@ -108,7 +109,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("BBB")
                 .define('B', battenItem)
                 .unlockedBy("has_batten", has(battenItem))
-                .save(consumer, new ResourceLocation("carpentryadditions",
+                .save(consumer, new ResourceLocation(CarpentryAdditions.MODID,
                         woodType + "_trapdoor_from_batten"));
     }
 
@@ -127,7 +128,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .define('B', battenItem)
                 .define('S', ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft", "stick")))
                 .unlockedBy("has_batten", has(battenItem))
-                .save(consumer, new ResourceLocation("carpentryadditions",
+                .save(consumer, new ResourceLocation(CarpentryAdditions.MODID,
                         woodType + "_fence_from_batten"));
     }
 
@@ -141,7 +142,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("B")
                 .define('B', battenItem)
                 .unlockedBy("has_batten", has(battenItem))
-                .save(consumer, new ResourceLocation("carpentryadditions",
+                .save(consumer, new ResourceLocation(CarpentryAdditions.MODID,
                         woodType + "_batton_block_from_batten"));
     }
 
@@ -152,7 +153,7 @@ public class ModRecipeProvider extends RecipeProvider {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, result, 2)
                 .requires(battenBlockItem)
                 .unlockedBy("has_batten_block", has(battenBlockItem))
-                .save(consumer, new ResourceLocation("carpentryadditions",
+                .save(consumer, new ResourceLocation(CarpentryAdditions.MODID,
                         woodType + "_batten_from_batten_block"));
     }
 }

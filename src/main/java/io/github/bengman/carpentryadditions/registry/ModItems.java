@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.github.bengman.carpentryadditions.CarpentryAdditions;
+import io.github.bengman.carpentryadditions.utils.BattenWoodTypes;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
@@ -21,13 +22,16 @@ public class ModItems {
     public static final RegistryObject<Item> CHIP_BIN_ITEM = ITEMS.register("chip_bin",
             () -> new BlockItem(ModBlocks.CHIP_BIN.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> WOOD_CHIPS = ITEMS.register("wood_chips",
+            () -> new Item(new Item.Properties()));
+
     /* ---- Auto-Gen Battens ---- */
 
     public static final Map<String, RegistryObject<Item>> BATTENS = new HashMap<>();
     public static final Map<String, RegistryObject<BlockItem>> BATTEN_BLOCK_ITEMS = new HashMap<>();
 
     static {
-        for (String woodType : BattenRegistry.BATTEN_TYPES) {
+        for (String woodType : BattenWoodTypes.BATTEN_TYPES) {
             BATTENS.put(woodType, createBatten(woodType));
             BATTEN_BLOCK_ITEMS.put(woodType, createBattenBlockItem(woodType));
         }
@@ -46,10 +50,10 @@ public class ModItems {
     /* ---- Default Getters ---- */
 
     public static RegistryObject<Item> getDefaultBatten() {
-        return BATTENS.get(BattenRegistry.DEFAULT_BATTEN_TYPE);
+        return BATTENS.get(BattenWoodTypes.DEFAULT_BATTEN_TYPE);
     }
 
     public static RegistryObject<BlockItem> getDefaultBattenBlockItem() {
-        return BATTEN_BLOCK_ITEMS.get(BattenRegistry.DEFAULT_BATTEN_TYPE);
+        return BATTEN_BLOCK_ITEMS.get(BattenWoodTypes.DEFAULT_BATTEN_TYPE);
     }
 }

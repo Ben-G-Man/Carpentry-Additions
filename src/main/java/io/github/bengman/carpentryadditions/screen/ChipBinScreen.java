@@ -4,18 +4,18 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import io.github.bengman.carpentryadditions.CarpentryAdditions;
-import io.github.bengman.carpentryadditions.menu.ResawMenu;
+import io.github.bengman.carpentryadditions.menu.ChipBinMenu;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.resources.ResourceLocation;
 
-public class ResawScreen extends AbstractContainerScreen<ResawMenu> {
+public class ChipBinScreen extends AbstractContainerScreen<ChipBinMenu> {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(CarpentryAdditions.MODID,
-            "textures/gui/resaw.png");
+            "textures/gui/chip_bin.png");
 
-    public ResawScreen(ResawMenu menu, Inventory inventory, Component title) {
+    public ChipBinScreen(ChipBinMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
 
         this.imageWidth = 176;

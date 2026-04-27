@@ -1,13 +1,14 @@
 package io.github.bengman.carpentryadditions.menu;
 
-import java.util.Arrays;
-
 import io.github.bengman.carpentryadditions.blockentity.ResawBlockEntity;
-import io.github.bengman.carpentryadditions.registry.BattenRegistry;
 import io.github.bengman.carpentryadditions.registry.ModBlocks;
 import io.github.bengman.carpentryadditions.registry.ModItems;
 import io.github.bengman.carpentryadditions.registry.ModMenus;
+import io.github.bengman.carpentryadditions.utils.BattenWoodTypes;
 import io.github.bengman.carpentryadditions.utils.CarpentryUtils;
+import java.util.Arrays;
+import java.util.Random;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.tags.ItemTags;
@@ -19,153 +20,136 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 
-public class ResawMenu extends AbstractContainerMenu {
+public class ResawMenu extends InventoryMenu<ResawBlockEntity> {
 
-    private final BlockPos pos;
-    private final Level level;
+    private final SimpleContainer processContainer;
+    private final boolean openedWithChipBin;
 
     private static final int INPUT_SLOT = 0;
     private static final int OUTPUT_SLOT = 1;
-
-    private static final int PLAYER_INV_START = 2;
-    private static final int HOTBAR_END = 38;
 
     public ResawMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
         this(containerId, inventory, extraData.readBlockPos());
     }
 
     public ResawMenu(int containerId, Inventory inventory, BlockPos pos) {
-        super(ModMenus.RESAW_MENU.get(), containerId);
+        super(ModMenus.RESAW_MENU.get(), containerId, inventory, pos, ResawBlockEntity.class);
 
-        this.pos = pos;
-        this.level = inventory.player.level;
-
-        BlockEntity be = level.getBlockEntity(pos);
-
-        if (!(be instanceof ResawBlockEntity resawBE)) {
-            throw new IllegalStateException("Missing BlockEntity at Resaw position");
-        }
-
-        SimpleContainer container = resawBE.getInventory();
+        this.processContainer = new SimpleContainer(2);
+        this.openedWithChipBin = blockEntity.hasChipBin();
 
         /* ---- Input ---- */
-        this.addSlot(new Slot(container, INPUT_SLOT, 26, 36) {
-            @Override
-            public boolean mayPlace(ItemStack stack) {
-                return stack.is(ItemTags.PLANKS);
-            }
+        this.addSlot(
+                new Slot(processContainer, INPUT_SLOT, 26, 36) {
+                    @Override
+                    public boolean mayPlace(ItemStack stack) {
+                        return stack.is(ItemTags.PLANKS);
+                    }
 
-            @Override
-            public void setChanged() {
-                super.setChanged();
-                updateOutput();
-            }
-        });
+                    @Override
+                    public void setChanged() {
+                        super.setChanged();
+                        updateOutput();
+                    }
+                });
 
         /* ---- Output ---- */
-        this.addSlot(new Slot(container, OUTPUT_SLOT, 134, 36) {
+        this.addSlot(
+                new Slot(processContainer, OUTPUT_SLOT, 134, 36) {
 
-            @Override
-            public boolean mayPlace(ItemStack stack) {
-                return false;
-            }
+                    @Override
+                    public boolean mayPlace(ItemStack stack) {
+                        return false;
+                    }
 
-            @Override
-            public void onTake(Player player, ItemStack stack) {
+                    @Override
+                    public void onTake(Player player, ItemStack stack) {
+                        if (!level.isClientSide) {
+                            Slot inputSlot = slots.get(INPUT_SLOT);
+                            ItemStack input = inputSlot.getItem();
 
-                Slot inputSlot = slots.get(INPUT_SLOT);
-                ItemStack input = inputSlot.getItem();
+                            if (input.is(ItemTags.PLANKS)) {
+                                input.shrink(1);
 
-                if (input.is(ItemTags.PLANKS)) {
-                    input.shrink(1);
-                }
+                                if (openedWithChipBin) {
+                                    blockEntity.getChipBin().addChips(rollShavings(1));
+                                }
+                            }
 
-                updateOutput();
+                            updateOutput();
 
-                super.onTake(player, stack);
-            }
-        });
+                            super.onTake(player, stack);
+                        }
+                    }
+                });
+
+        /* ---- Chip Bin ---- */
+        if (blockEntity.hasChipBin()) {
+            // Add chip bin icon
+        }
 
         /* ---- Player Inventory ---- */
-        int startX = 8;
-        int startY = 85;
-
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 9; col++) {
-                this.addSlot(new Slot(inventory,
-                        col + row * 9 + 9,
-                        startX + col * 18,
-                        startY + row * 18));
-            }
-        }
-
-        /* ---- Hotbar ---- */
-        int hotbarY = 143;
-
-        for (int i = 0; i < 9; i++) {
-            this.addSlot(new Slot(inventory, i, startX + i * 18, hotbarY));
-        }
-
-        updateOutput();
+        addDefaultPlayerInventory(inventory);
     }
 
     @Override
     public boolean stillValid(Player player) {
-        return AbstractContainerMenu.stillValid(ContainerLevelAccess.create(level, pos),
-                player,
-                ModBlocks.RESAW.get());
+        return (AbstractContainerMenu.stillValid(
+                ContainerLevelAccess.create(level, pos), player, ModBlocks.RESAW.get())
+                || blockEntity.hasChipBin() != openedWithChipBin);
     }
 
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
 
-        ItemStack result = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
 
-        if (slot != null && slot.hasItem()) {
+        if (slot == null || !slot.hasItem()) {
+            return ItemStack.EMPTY;
+        }
 
-            ItemStack stack = slot.getItem();
-            result = stack.copy();
+        ItemStack stack = slot.getItem();
+        ItemStack original = stack.copy();
 
-            /* ---- Clicked Output ---- */
-            if (index == OUTPUT_SLOT) {
+        /* ---- Input slot ---- */
+        if (index == INPUT_SLOT) {
 
-                quickProcessAll(player);
-
+            if (!this.moveItemStackTo(stack, PLAYER_INV_START, PLAYER_INV_END, true)) {
                 return ItemStack.EMPTY;
-            }
-
-            /* ---- Clicked Player Inventory ---- */
-            else if (index >= PLAYER_INV_START) {
-
-                /* Move planks into input */
-                if (stack.is(ItemTags.PLANKS)) {
-
-                    if (!this.moveItemStackTo(stack, INPUT_SLOT, INPUT_SLOT + 1, false)) {
-                        return ItemStack.EMPTY;
-                    }
-                }
-            }
-
-            /* ---- Clicked Input ---- */
-            else if (index == INPUT_SLOT) {
-
-                if (!this.moveItemStackTo(stack, PLAYER_INV_START, HOTBAR_END, false)) {
-                    return ItemStack.EMPTY;
-                }
-            }
-
-            if (stack.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
-            } else {
-                slot.setChanged();
             }
         }
 
-        return result;
+        /* ---- Output slot ---- */
+        else if (index == OUTPUT_SLOT) {
+
+            quickProcessAll(player);
+            return ItemStack.EMPTY;
+        }
+
+        /* ---- Player inventory ---- */
+        else {
+
+            if (stack.is(ItemTags.PLANKS)) {
+
+                if (!this.moveItemStackTo(stack, INPUT_SLOT, INPUT_SLOT + 1, false)) {
+                    return ItemStack.EMPTY;
+                }
+
+            } else {
+                // IMPORTANT: explicitly reject non-planks
+                return ItemStack.EMPTY;
+            }
+        }
+
+        /* ---- Final cleanup ---- */
+        if (stack.isEmpty()) {
+            slot.set(ItemStack.EMPTY);
+        } else {
+            slot.setChanged();
+        }
+
+        return original;
     }
 
     private void quickProcessAll(Player player) {
@@ -175,7 +159,6 @@ public class ResawMenu extends AbstractContainerMenu {
 
         ItemStack input = inputSlot.getItem();
 
-        /* ---- Check input ---- */
         if (!input.is(ItemTags.PLANKS)) {
             return;
         }
@@ -183,30 +166,32 @@ public class ResawMenu extends AbstractContainerMenu {
         int plankCount = input.getCount();
         int totalBattens = plankCount * 2;
 
-        /* ---- Clear machine slots ---- */
         inputSlot.set(ItemStack.EMPTY);
         outputSlot.set(ItemStack.EMPTY);
 
-        /* ---- Create result stack ---- */
         ItemStack battens = new ItemStack(getOutputItem(input), totalBattens);
-
-        /* ---- Insert into player inventory ---- */
         player.getInventory().placeItemBackInInventory(battens);
+
+        blockEntity.getChipBin().addChips(rollShavings(plankCount));
     }
 
     private void updateOutput() {
 
-        Slot inputSlot = this.slots.get(INPUT_SLOT);
-        Slot outputSlot = this.slots.get(OUTPUT_SLOT);
+        if (!level.isClientSide) {
+            Slot inputSlot = this.slots.get(INPUT_SLOT);
+            Slot outputSlot = this.slots.get(OUTPUT_SLOT);
 
-        ItemStack input = inputSlot.getItem();
+            ItemStack input = inputSlot.getItem();
 
-        if (!input.is(ItemTags.PLANKS)) {
-            outputSlot.set(ItemStack.EMPTY);
-            return;
+            if (!input.is(ItemTags.PLANKS)) {
+                outputSlot.set(ItemStack.EMPTY);
+                return;
+            }
+
+            outputSlot.set(new ItemStack(getOutputItem(input), 2));
+
+            this.broadcastChanges();
         }
-
-        outputSlot.set(new ItemStack(getOutputItem(input), 2));
     }
 
     private Item getOutputItem(ItemStack input) {
@@ -217,10 +202,39 @@ public class ResawMenu extends AbstractContainerMenu {
         String woodType = CarpentryUtils.getWoodType(input);
 
         /* If the wood type exists in the batten registry */
-        if (Arrays.stream(BattenRegistry.BATTEN_TYPES).anyMatch(woodType::equals)) {
+        if (Arrays.stream(BattenWoodTypes.BATTEN_TYPES).anyMatch(woodType::equals)) {
             return ModItems.BATTENS.get(woodType).get();
         } else {
             return ModItems.getDefaultBatten().get();
         }
+    }
+
+    /* Player exits from UI */
+    @Override
+    public void removed(Player player) {
+        super.removed(player);
+
+        if (!player.level.isClientSide) {
+
+            ItemStack input = this.processContainer.getItem(INPUT_SLOT);
+
+            if (!input.isEmpty()) {
+                player.getInventory().placeItemBackInInventory(input);
+                this.processContainer.setItem(INPUT_SLOT, ItemStack.EMPTY);
+            }
+        }
+    }
+
+    private static final int[] SHAVING_TABLE = { 0, 1, 1, 1, 2, 2, 3 };
+    private static final Random RANDOM = new Random();
+
+    public int rollShavings(int processedItems) {
+        int total = 0;
+
+        for (int i = 0; i < processedItems; i++) {
+            total += SHAVING_TABLE[RANDOM.nextInt(SHAVING_TABLE.length)];
+        }
+
+        return total;
     }
 }

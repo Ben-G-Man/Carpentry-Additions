@@ -1,6 +1,5 @@
 package io.github.bengman.carpentryadditions.utils;
 
-import io.github.bengman.carpentryadditions.registry.ModItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;

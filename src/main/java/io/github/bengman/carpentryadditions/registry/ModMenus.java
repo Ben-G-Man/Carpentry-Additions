@@ -1,6 +1,7 @@
 package io.github.bengman.carpentryadditions.registry;
 
 import io.github.bengman.carpentryadditions.CarpentryAdditions;
+import io.github.bengman.carpentryadditions.menu.ChipBinMenu;
 import io.github.bengman.carpentryadditions.menu.ResawMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;
@@ -15,4 +16,7 @@ public class ModMenus {
 
     public static final RegistryObject<MenuType<ResawMenu>> RESAW_MENU = MENUS.register("resaw_menu",
             () -> IForgeMenuType.create((containerId, inventory, buf) -> new ResawMenu(containerId, inventory, buf)));
+
+    public static final RegistryObject<MenuType<ChipBinMenu>> CHIP_BIN_MENU = MENUS.register("chip_bin_menu",
+            () -> IForgeMenuType.create((containerId, inventory, buf) -> new ChipBinMenu(containerId, inventory, buf)));
 }

@@ -1,6 +1,7 @@
 package io.github.bengman.carpentryadditions.registry;
 
 import io.github.bengman.carpentryadditions.CarpentryAdditions;
+import io.github.bengman.carpentryadditions.screen.ChipBinScreen;
 import io.github.bengman.carpentryadditions.screen.ResawScreen;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.api.distmarker.Dist;
@@ -15,6 +16,7 @@ public class ModScreens {
     public static void clientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             MenuScreens.register(ModMenus.RESAW_MENU.get(), ResawScreen::new);
+            MenuScreens.register(ModMenus.CHIP_BIN_MENU.get(), ChipBinScreen::new);
         });
     }
 }
