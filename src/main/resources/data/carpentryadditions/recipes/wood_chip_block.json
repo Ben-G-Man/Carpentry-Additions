@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WW",
+    "WW"
+  ],
+  "key": {
+    "W": { "item": "carpentryadditions:wood_chips" }
+  },
+  "result": {
+    "item": "carpentryadditions:wood_chip_block",
+    "count": 1
+  }
+}

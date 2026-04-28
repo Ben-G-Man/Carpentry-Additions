@@ -22,6 +22,9 @@ public class ModItems {
     public static final RegistryObject<Item> CHIP_BIN_ITEM = ITEMS.register("chip_bin",
             () -> new BlockItem(ModBlocks.CHIP_BIN.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> WOOD_CHIP_BLOCK = ITEMS.register("wood_chip_block",
+            () -> new BlockItem(ModBlocks.WOOD_CHIP_BLOCK.get(), new Item.Properties()));
+
     public static final RegistryObject<Item> WOOD_CHIPS = ITEMS.register("wood_chips",
             () -> new Item(new Item.Properties()));
 

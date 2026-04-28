@@ -18,15 +18,11 @@ import io.github.bengman.carpentryadditions.registry.ModBlockEntities;
 import io.github.bengman.carpentryadditions.registry.ModBlocks;
 import io.github.bengman.carpentryadditions.registry.ModItems;
 import io.github.bengman.carpentryadditions.registry.ModMenus;
-// import org.slf4j.Logger;
 
-// The value here should match an entry in the META-INF/mods.toml file
 @Mod(CarpentryAdditions.MODID)
 public class CarpentryAdditions {
 
     public static final String MODID = "carpentryadditions";
-
-    // private static final Logger LOGGER = LogUtils.getLogger();
 
     /* ---- Register BLOCKS, ITEMS, etc. with the event bus ---- */
 

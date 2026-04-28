@@ -6,12 +6,14 @@ import java.util.Map;
 import io.github.bengman.carpentryadditions.CarpentryAdditions;
 import io.github.bengman.carpentryadditions.block.ChipBinBlock;
 import io.github.bengman.carpentryadditions.block.ResawBlock;
+import io.github.bengman.carpentryadditions.block.WoodChipBlock;
 import io.github.bengman.carpentryadditions.utils.BattenWoodTypes;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.material.Material;
 
@@ -25,6 +27,9 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> CHIP_BIN = BLOCKS.register("chip_bin",
             () -> new ChipBinBlock(BlockBehaviour.Properties.of(Material.WOOD).strength(2.5f).noOcclusion()));
+
+    public static final RegistryObject<Block> WOOD_CHIP_BLOCK = BLOCKS.register("wood_chip_block",
+            () -> new WoodChipBlock(BlockBehaviour.Properties.copy(Blocks.SAND).strength(1f)));
 
     /* ---- Auto-Gen Batten Blocks ---- */
 

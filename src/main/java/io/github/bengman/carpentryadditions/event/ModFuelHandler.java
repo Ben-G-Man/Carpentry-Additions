@@ -29,6 +29,10 @@ public class ModFuelHandler {
                 FUEL_VALUES.put(item.get(), 300);
             }
         });
+
+        FUEL_VALUES.put(ModItems.WOOD_CHIPS.get(), 400);
+
+        FUEL_VALUES.put(ModItems.WOOD_CHIP_BLOCK.get(), 1600);
     }
 
     @SubscribeEvent

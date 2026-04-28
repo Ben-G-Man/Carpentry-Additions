@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "carpentryadditions:block/wood_chip_block" }
+  }
+}

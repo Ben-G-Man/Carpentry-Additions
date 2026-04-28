@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "particle": "carpentryadditions:item/wood_chips",
+    "all": "carpentryadditions:block/wood_chip_block"
+  }
+}

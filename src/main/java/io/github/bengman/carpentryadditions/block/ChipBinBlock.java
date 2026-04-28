@@ -1,10 +1,10 @@
 package io.github.bengman.carpentryadditions.block;
 
 import io.github.bengman.carpentryadditions.blockentity.ChipBinBlockEntity;
-import io.github.bengman.carpentryadditions.blockentity.ResawBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -72,5 +72,29 @@ public class ChipBinBlock extends BaseEntityBlock {
         }
 
         return InteractionResult.sidedSuccess(level.isClientSide);
+    }
+
+    @Override
+    public void onRemove(BlockState state, Level level, BlockPos pos,
+            BlockState newState, boolean isMoving) {
+
+        if (state.getBlock() != newState.getBlock()) {
+
+            BlockEntity be = level.getBlockEntity(pos);
+
+            if (be instanceof ChipBinBlockEntity chipBin) {
+
+                for (int i = 0; i < chipBin.container.getSlots(); i++) {
+                    Containers.dropItemStack(
+                            level,
+                            pos.getX(),
+                            pos.getY(),
+                            pos.getZ(),
+                            chipBin.container.getStackInSlot(i));
+                }
+            }
+
+            super.onRemove(state, level, pos, newState, isMoving);
+        }
     }
 }

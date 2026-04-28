@@ -15,8 +15,8 @@ public class ChipBinMenu extends InventoryMenu<ChipBinBlockEntity> {
     public static final int DEPOSIT_ROWS = 2;
     public static final int DEPOSIT_COLS = 2;
 
-    private static final int START_X = 10;
-    private static final int START_Y = 10;
+    private static final int START_X = 71;
+    private static final int START_Y = 34;
 
     public ChipBinMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
         this(containerId, inventory, extraData.readBlockPos());

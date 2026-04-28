@@ -24,7 +24,7 @@ import net.minecraft.world.item.ItemStack;
 public class ResawMenu extends InventoryMenu<ResawBlockEntity> {
 
     private final SimpleContainer processContainer;
-    private final boolean openedWithChipBin;
+    public final boolean openedWithChipBin;
 
     private static final int INPUT_SLOT = 0;
     private static final int OUTPUT_SLOT = 1;
@@ -41,7 +41,7 @@ public class ResawMenu extends InventoryMenu<ResawBlockEntity> {
 
         /* ---- Input ---- */
         this.addSlot(
-                new Slot(processContainer, INPUT_SLOT, 26, 36) {
+                new Slot(processContainer, INPUT_SLOT, 26, 28) {
                     @Override
                     public boolean mayPlace(ItemStack stack) {
                         return stack.is(ItemTags.PLANKS);
@@ -56,7 +56,7 @@ public class ResawMenu extends InventoryMenu<ResawBlockEntity> {
 
         /* ---- Output ---- */
         this.addSlot(
-                new Slot(processContainer, OUTPUT_SLOT, 134, 36) {
+                new Slot(processContainer, OUTPUT_SLOT, 134, 28) {
 
                     @Override
                     public boolean mayPlace(ItemStack stack) {
@@ -73,7 +73,7 @@ public class ResawMenu extends InventoryMenu<ResawBlockEntity> {
                                 input.shrink(1);
 
                                 if (openedWithChipBin) {
-                                    blockEntity.getChipBin().addChips(rollShavings(1));
+                                    blockEntity.getChipBin().addChips(rollChips(1));
                                 }
                             }
 
@@ -172,7 +172,7 @@ public class ResawMenu extends InventoryMenu<ResawBlockEntity> {
         ItemStack battens = new ItemStack(getOutputItem(input), totalBattens);
         player.getInventory().placeItemBackInInventory(battens);
 
-        blockEntity.getChipBin().addChips(rollShavings(plankCount));
+        blockEntity.getChipBin().addChips(rollChips(plankCount));
     }
 
     private void updateOutput() {
@@ -225,14 +225,14 @@ public class ResawMenu extends InventoryMenu<ResawBlockEntity> {
         }
     }
 
-    private static final int[] SHAVING_TABLE = { 0, 1, 1, 1, 2, 2, 3 };
+    private static final int[] CHIPS_TABLE = { 0, 1, 1, 1, 2, 2, 3 };
     private static final Random RANDOM = new Random();
 
-    public int rollShavings(int processedItems) {
+    public int rollChips(int processedItems) {
         int total = 0;
 
         for (int i = 0; i < processedItems; i++) {
-            total += SHAVING_TABLE[RANDOM.nextInt(SHAVING_TABLE.length)];
+            total += CHIPS_TABLE[RANDOM.nextInt(CHIPS_TABLE.length)];
         }
 
         return total;

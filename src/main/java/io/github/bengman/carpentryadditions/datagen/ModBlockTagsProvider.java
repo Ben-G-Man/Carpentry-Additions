@@ -21,6 +21,12 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider provider) {
         var axeTag = tag(BlockTags.MINEABLE_WITH_AXE);
+        var shovelTag = tag(BlockTags.MINEABLE_WITH_SHOVEL);
+
+        axeTag.add(ModBlocks.RESAW.get());
+        axeTag.add(ModBlocks.CHIP_BIN.get());
+        axeTag.add(ModBlocks.WOOD_CHIP_BLOCK.get());
+        shovelTag.add(ModBlocks.WOOD_CHIP_BLOCK.get());
 
         ModBlocks.BATTEN_BLOCKS.forEach((type, block) -> {
             axeTag.add(block.get());

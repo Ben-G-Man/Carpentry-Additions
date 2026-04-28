@@ -14,8 +14,10 @@ public class ModEnLangProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
 
-        add(ModBlocks.CHIP_BIN.get(), "Shaving Bin");
+        add(ModBlocks.CHIP_BIN.get(), "Scrap Bin");
         add(ModBlocks.RESAW.get(), "Resaw Table");
+        add(ModBlocks.WOOD_CHIP_BLOCK.get(), "Wood Shavings Block");
+        add(ModItems.WOOD_CHIPS.get(), "Wood Shavings");
 
         ModItems.BATTENS.forEach((wood, item) -> {
 
